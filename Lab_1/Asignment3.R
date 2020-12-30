@@ -19,6 +19,7 @@ test_err <- mean((test$Fat - lm_yhat_test)^2)
 
 summary(model1)
 plot(model1)
+plot(pred, test$Fat)
 
 #1 Y = β0 + β1X1 + β2X2 + · · · + βpXp + ε = β^T*X + ε, = probabalistic function. 
 
@@ -51,7 +52,7 @@ plot(model_ridge, xvar="lambda", label=TRUE, main="RIDGE Regression\n")
 
 ########        Q6        ########        
 
-cv_lasso_model=cv.glmnet(as.matrix(covariates), response, alpha=1,family="gaussian",type.measure = "mse")
+cv_lasso_model=cv.glmnet(as.matrix(covariates), response, alpha=1,family="gaussian",type.measure = "class")
 plot(cv_lasso_model)
 coef(cv_lasso_model, s="lambda.min")
 print(log(cv_lasso_model$lambda.min)) 
@@ -63,9 +64,8 @@ test_err <- mean((test$Fat - yhat)^2)
 test_err
 
 ########        Q7        ########   
-df <- sqrt(sum(test$Fat - yhat)^2/107)
-rnorm_test <- rnorm(107,yhat, df)
+
+
+sd <- sqrt(sum(test$Fat - yhat)^2/107)
+rnorm_test <- rnorm(107,yhat, sd)
 plot(rnorm_test, test$Fat)
-
-
-
